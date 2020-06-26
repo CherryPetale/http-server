@@ -8,6 +8,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        try{
+            new HttpdServer(8080).start();
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 }
