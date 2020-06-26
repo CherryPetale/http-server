@@ -11,7 +11,7 @@ public class App
         try{
             new HttpdServer(8080).start();
         }catch(Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }
