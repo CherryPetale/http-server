@@ -10,4 +10,5 @@ public interface HttpRequest {
     HttpMethod getMethod();
     String getPath();
     List<HttpHeader> getHeaders();
+    String getValue(String key);
 }

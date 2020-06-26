@@ -1,5 +1,6 @@
 package net.kuroppi.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,6 +17,15 @@ public class FileContent {
                 }
                 out.write(inputBuffer, 0, n);
             }
+        }catch(Exception e){
+            throw new IOException("Can't Output File");
+        }
+    }
+
+    public static long getFileLength(String path) throws IOException{
+        try{
+            File f = new File(path);
+            return f.length();
         }catch(Exception e){
             throw new IOException("Can't Output File");
         }

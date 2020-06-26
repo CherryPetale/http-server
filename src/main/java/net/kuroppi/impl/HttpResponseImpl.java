@@ -33,7 +33,8 @@ public class HttpResponseImpl implements HttpResponse {
 
     @Override
     public void OutputHeader() throws IOException {
-        out.write(outputResponseHeader());
+        byte[] responseHeader = outputResponseHeader();
+        out.write(responseHeader, 0, responseHeader.length);
     }
     
     private byte[] outputResponseHeader(){
@@ -61,6 +62,8 @@ public class HttpResponseImpl implements HttpResponse {
                 return "Not Modified";   
             case 404:
                 return "Not Found";
+            case 500:
+                return "Internal Server Error";
             default:
                 return "I'm a teapot";
         }

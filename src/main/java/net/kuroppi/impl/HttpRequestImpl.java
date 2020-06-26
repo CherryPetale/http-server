@@ -38,5 +38,15 @@ public class HttpRequestImpl implements HttpRequest {
     public List<HttpHeader> getHeaders() {
         return this.headers;
     }
+
+    @Override
+    public String getValue(String key) {
+        for(HttpHeader header : this.headers){
+            if(header.getKey() == key){
+                return header.getValue();
+            }
+        }
+        return "";
+    }
     
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import net.kuroppi.HttpHeader;
 import net.kuroppi.HttpHeaderParser;
 import net.kuroppi.HttpRequest;
-import net.kuroppi.impl.HttpHeaderImpl;
+//import net.kuroppi.impl.HttpHeaderImpl;
 
 public class HttpHeaderParserImpl implements HttpHeaderParser {
 
