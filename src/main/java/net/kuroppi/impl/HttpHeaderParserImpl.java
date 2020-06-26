@@ -10,13 +10,14 @@ import java.util.List;
 import net.kuroppi.HttpHeader;
 import net.kuroppi.HttpHeaderParser;
 import net.kuroppi.HttpRequest;
+import net.kuroppi.impl.HttpHeaderImpl;
 
 public class HttpHeaderParserImpl implements HttpHeaderParser {
 
     @Override
     public HttpRequest parse(InputStream in) throws IOException {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "ISO-8859-1"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
         String requestLine = reader.readLine();
         if(requestLine == null || requestLine.length() == 0){
@@ -39,6 +40,8 @@ public class HttpHeaderParserImpl implements HttpHeaderParser {
         }
         HttpRequest.HttpMethod method = HttpRequest.HttpMethod.valueOf(parts[0]);
         String path = parts[1];
+
+        System.out.println(requestLine);
 
         List<HttpHeader> headers = new ArrayList<>();
         while(true){

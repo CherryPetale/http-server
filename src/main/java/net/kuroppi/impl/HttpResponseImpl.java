@@ -2,6 +2,7 @@ package net.kuroppi.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
+//import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,37 @@ public class HttpResponseImpl implements HttpResponse {
     }
 
     @Override
-    public OutputStream OutputStream() throws IOException {
-        return out;
+    public void OutputHeader() throws IOException {
+        out.write(outputResponseHeader());
     }
     
+    private byte[] outputResponseHeader(){
+        try{
+            StringBuilder response = new StringBuilder();
+
+            response.append("HTTP/1.0 ").append(statuscode).append(" ").append(getStatusText()).append("\r\n");
+            
+            for (HttpHeader header : headers) {
+				response.append(header.getKey()).append(": ").append(header.getValue()).append("\r\n");
+            }
+            response.append("\r\n");
+
+            return response.toString().getBytes();
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getStatusText(){
+        switch(statuscode){
+            case 200:
+                return "OK";
+            case 304:
+                return "Not Modified";   
+            case 404:
+                return "Not Found";
+            default:
+                return "I'm a teapot";
+        }
+    }
 }
