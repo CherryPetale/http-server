@@ -19,10 +19,11 @@ public class HttpRequestImplTest {
         List<HttpHeader> headers = new ArrayList<>();
         headers.add(new HttpHeaderImpl("Hoge", "Fuga"));
         headers.add(new HttpHeaderImpl("Hoge2", "Fuga2"));
-        HttpRequestImpl hri = new HttpRequestImpl(HttpMethod.GET, "/hoge.html", headers);
+        HttpRequestImpl hri = new HttpRequestImpl(HttpMethod.GET, "/hoge.html", "HTTP/1.1", headers);
 
         assertEquals(HttpMethod.GET, hri.getMethod());
         assertEquals("/hoge.html",  hri.getPath());
+        assertEquals("HTTP/1.1",       hri.getHttpVersion());
         assertEquals(headers,       hri.getHeaders());
         assertEquals("Fuga",        hri.getValue("Hoge"));
         assertEquals("Fuga2",       hri.getValue("Hoge2"));

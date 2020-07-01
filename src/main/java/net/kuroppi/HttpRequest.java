@@ -8,6 +8,7 @@ public interface HttpRequest {
     }
     HttpMethod getMethod();
     String getPath();
+    String getHttpVersion();
     List<HttpHeader> getHeaders();
     String getValue(String key);
 }

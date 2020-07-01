@@ -35,19 +35,21 @@ public class HttpResponseImpl implements HttpResponse {
     public void OutputHeader() throws IOException {
         byte[] responseHeader = outputResponseHeader();
         out.write(responseHeader, 0, responseHeader.length);
+        out.flush();
     }
     
     private byte[] outputResponseHeader(){
         try{
             StringBuilder response = new StringBuilder();
 
-            response.append("HTTP/1.0 ").append(statuscode).append(" ").append(getStatusText()).append("\r\n");
+            response.append("HTTP/1.1 ").append(statuscode).append(" ").append(getStatusText()).append("\r\n");
             
             for (HttpHeader header : headers) {
 				response.append(header.getKey()).append(": ").append(header.getValue()).append("\r\n");
             }
             response.append("\r\n");
 
+            System.out.println(response.toString());
             return response.toString().getBytes();
         }catch(Exception e){
             throw new RuntimeException(e);

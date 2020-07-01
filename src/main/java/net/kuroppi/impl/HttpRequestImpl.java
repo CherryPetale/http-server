@@ -11,14 +11,17 @@ public class HttpRequestImpl implements HttpRequest {
 
     private final String path;
 
+    private final String httpVersion;
+
     private final List<HttpHeader> headers;
 
-    public HttpRequestImpl(HttpMethod method, String path, List<HttpHeader> headers){
+    public HttpRequestImpl(HttpMethod method, String path, String httpVersion ,List<HttpHeader> headers){
         if(headers == null){
             throw new NullPointerException();
         }
         this.method = method;
         this.path = path;
+        this.httpVersion = httpVersion;
         this.headers = headers;
     }
 
@@ -31,6 +34,11 @@ public class HttpRequestImpl implements HttpRequest {
     @Override
     public String getPath() {
         return this.path;
+    }
+
+    @Override
+    public String getHttpVersion() {
+        return this.httpVersion;
     }
 
     @Override

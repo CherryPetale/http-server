@@ -21,6 +21,11 @@ public class Http10processor implements HttpProcessor {
             String ContentType = "";
             long ContentLength = 0;
 
+            // タイムアウトチェック
+            if(req == null){
+                return;
+            }
+
             // Keep-Aliveチェック
             if(req.getValue("Connection").toLowerCase().equals("close")){
                 KeepAlive = false;
@@ -51,18 +56,26 @@ public class Http10processor implements HttpProcessor {
                 return;
             }
 
-
-
             // 成功レスポンス
             res.addHeader(new HttpHeaderImpl("Server", "kaida-server"));
             res.addHeader(new HttpHeaderImpl("Content-Type", ContentType));
             res.addHeader(new HttpHeaderImpl("Connection", "Keep-Alive"));
 
-            res.addHeader(new HttpHeaderImpl("Content-Length", String.valueOf(ContentLength)));
+            // ContentLengthとTransferEncodingの切り分け
+            FileContent.SendingMode mode = 
+                req.getHttpVersion().toLowerCase().equals("http/1.1") &&
+                ContentLength > FileContent.ONE_SEND_SIZE ? 
+                FileContent.SendingMode.T_ENCODING : FileContent.SendingMode.CONTENT_LEN;
+
+            if( mode.equals(FileContent.SendingMode.CONTENT_LEN) ){
+                res.addHeader(new HttpHeaderImpl("Content-Length", String.valueOf(ContentLength)));
+            }else{
+                res.addHeader(new HttpHeaderImpl("Transfer-Encoding", "chunked"));
+            }
 
             res.OutputHeader();
             
-            FileContent.OutputFile(out, requestPath);
+            FileContent.OutputFile(out, requestPath, mode);
 
         }
     }

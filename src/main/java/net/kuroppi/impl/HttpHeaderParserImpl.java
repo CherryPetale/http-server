@@ -54,6 +54,7 @@ public class HttpHeaderParserImpl implements HttpHeaderParser {
         }
         HttpRequest.HttpMethod method = HttpRequest.HttpMethod.valueOf(parts[0]);
         String path = parts[1];
+        String httpVersion = parts[2];
 
         System.out.println(requestLine);
 
@@ -73,7 +74,7 @@ public class HttpHeaderParserImpl implements HttpHeaderParser {
             headers.add(new HttpHeaderImpl(splitsLine[0].trim(), splitsLine[1].trim()));
         }
 
-        return new HttpRequestImpl(method, path, headers);
+        return new HttpRequestImpl(method, path, httpVersion, headers);
     }
     
 }
