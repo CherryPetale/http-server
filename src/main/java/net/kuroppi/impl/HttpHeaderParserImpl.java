@@ -14,10 +14,24 @@ import net.kuroppi.HttpRequest;
 
 public class HttpHeaderParserImpl implements HttpHeaderParser {
 
+    private final long TIMEOUT_MS = 5000L;
+
     @Override
     public HttpRequest parse(InputStream in) throws IOException {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+        long startTime = System.currentTimeMillis();
+        while (in.available() <= 0) {
+            try {
+                if( System.currentTimeMillis() > startTime + TIMEOUT_MS){
+                    return null; // タイムアウトなのでnull返して終了
+                }
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new IOException("Invalid Sleep");
+            }
+        }
 
         String requestLine = reader.readLine();
         if(requestLine == null || requestLine.length() == 0){

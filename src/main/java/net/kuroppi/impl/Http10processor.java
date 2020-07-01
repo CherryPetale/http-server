@@ -21,8 +21,14 @@ public class Http10processor implements HttpProcessor {
             String ContentType = "";
             long ContentLength = 0;
 
+            // タイムアウトチェック
+            if(req == null){
+                System.out.println("Socket Close");
+                return;
+            }
+
             // Keep-Aliveチェック
-            if(req.getValue("Connection").toLowerCase().equals("close")){
+            if(!req.getValue("Connection").toLowerCase().equals("keep-alive")){
                 KeepAlive = false;
             }
 

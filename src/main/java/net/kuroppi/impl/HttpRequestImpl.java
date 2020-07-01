@@ -6,7 +6,7 @@ import net.kuroppi.HttpHeader;
 import net.kuroppi.HttpRequest;
 
 public class HttpRequestImpl implements HttpRequest {
-
+    
     private final HttpMethod method;
 
     private final String path;
@@ -17,7 +17,6 @@ public class HttpRequestImpl implements HttpRequest {
         if(headers == null){
             throw new NullPointerException();
         }
-
         this.method = method;
         this.path = path;
         this.headers = headers;
@@ -42,7 +41,7 @@ public class HttpRequestImpl implements HttpRequest {
     @Override
     public String getValue(String key) {
         for(HttpHeader header : this.headers){
-            if(header.getKey() == key){
+            if(header.getKey().equals(key)){
                 return header.getValue();
             }
         }
