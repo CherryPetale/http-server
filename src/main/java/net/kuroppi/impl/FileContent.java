@@ -51,4 +51,13 @@ public class FileContent {
             throw new IOException("Can't Output File");
         }
     }
+
+    public static long getFileLastUpdateTime(String path) throws IOException{
+        try{
+            File f = new File(path);
+            return f.lastModified();
+        }catch(Exception e){
+            throw new IOException(e.getMessage());
+        }
+    }
 }

@@ -49,7 +49,8 @@ public class HttpResponseImpl implements HttpResponse {
             }
             response.append("\r\n");
 
-            System.out.println(response.toString());
+            System.out.println("-> " + statuscode);
+
             return response.toString().getBytes();
         }catch(Exception e){
             throw new RuntimeException(e);

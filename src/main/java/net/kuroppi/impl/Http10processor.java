@@ -60,6 +60,17 @@ public class Http10processor implements HttpProcessor {
             res.addHeader(new HttpHeaderImpl("Server", "kaida-server"));
             res.addHeader(new HttpHeaderImpl("Content-Type", ContentType));
             res.addHeader(new HttpHeaderImpl("Connection", "Keep-Alive"));
+            res.addHeader(new HttpHeaderImpl("Cache-Control", "max-age=0"));
+
+            //Modifiedチェック
+            if( HttpModified.IsModifiedMode(req) &&
+                HttpModified.ComparisonTime(HttpModified.DateStringToMilliTime(req.getValue("If-Modified-Since")), FileContent.getFileLastUpdateTime(requestPath))){
+                    res.setStatusCode(304);
+                    res.OutputHeader();
+                    return;
+            }else{
+                res.addHeader(new HttpHeaderImpl("Last-Modified", HttpModified.milliTimeToDateString(FileContent.getFileLastUpdateTime(requestPath))));
+            }
 
             // ContentLengthとTransferEncodingの切り分け
             FileContent.SendingMode mode = 
