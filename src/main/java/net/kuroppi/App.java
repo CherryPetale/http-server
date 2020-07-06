@@ -9,9 +9,9 @@ public class App
     public static void main( String[] args )
     {
         try{
-            new HttpdServer(8080).start();
+            new HttpdServer(12345).start();
         }catch(Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }

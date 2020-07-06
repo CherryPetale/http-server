@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
+import net.kuroppi.impl.Http10processor;
+
 public class HttpdServer {
     private final int listenPort;
 
@@ -33,15 +35,7 @@ public class HttpdServer {
 						try {
 							try (InputStream in = sockAccept.getInputStream();
 									OutputStream out = sockAccept.getOutputStream();) {
-								byte[] buf = new byte[1500];
-								while (true) {
-									int len = in.read(buf, 0, buf.length);
-									if (len <= 0) {
-										break;
-									}
-									System.out.write(buf, 0, len);
-									out.write(buf, 0, len);
-								}
+                                    new Http10processor().runHttp(in, out);
 							}
 						} catch (Throwable e) {
 							e.printStackTrace(System.err);
