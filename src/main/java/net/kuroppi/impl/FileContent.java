@@ -5,15 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import net.kuroppi.impl.HttpTransfer.SendingMode;
+
 public class FileContent {
 
     public final static int ONE_SEND_SIZE = 1500;
     private final static String CRLF = "\r\n";
-
-    public enum SendingMode{
-        T_ENCODING,
-        CONTENT_LEN
-    }
 
     public static void OutputFile(OutputStream out, String path, SendingMode mode) throws IOException {
         try (FileInputStream fis = new FileInputStream(path)){

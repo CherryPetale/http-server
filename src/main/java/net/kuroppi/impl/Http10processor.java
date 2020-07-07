@@ -73,22 +73,15 @@ public class Http10processor implements HttpProcessor {
             }
 
             // ContentLengthとTransferEncodingの切り分け
-            FileContent.SendingMode mode = 
-                req.getHttpVersion().toLowerCase().equals("http/1.1") &&
-                ContentLength > FileContent.ONE_SEND_SIZE ? 
-                FileContent.SendingMode.T_ENCODING : FileContent.SendingMode.CONTENT_LEN;
+            HttpTransfer trans = new HttpTransfer(req, ContentLength);
+            trans.AddTransModeToHeader(res, ContentLength);
 
-            if( mode.equals(FileContent.SendingMode.CONTENT_LEN) ){
-                res.addHeader(new HttpHeaderImpl("Content-Length", String.valueOf(ContentLength)));
-            }else{
-                res.addHeader(new HttpHeaderImpl("Transfer-Encoding", "chunked"));
-            }
-
+            // ヘッダー送信
             res.OutputHeader();
             
-            FileContent.OutputFile(out, requestPath, mode);
+            // コンテンツ送信
+            FileContent.OutputFile(out, requestPath, trans.getTransMode());
 
         }
     }
-    
 }
